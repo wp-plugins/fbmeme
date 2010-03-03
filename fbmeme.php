@@ -3,10 +3,13 @@
 Plugin Name: FBMeme Button
 Plugin URI: http://bijayrungta.com/fbmeme-plugin-for-wordpress-to-show-count-of-facebook-shares-and-to-share
 Description: Adds the FBMeme button into your posts and RSS feed.
-Version: 1.0.0
+Version: 1.0.1
 Author: Bijay Rungta AKA @rungss Spreading Knowledge..
 Author URI: http://bijayrungta.com
 */
+
+// As Recommended by Sunny(mypaaji.com) was here. to use wp_enqueue script instead of adding js via script tag :)
+wp_enqueue_script("fbShare", "http://static.ak.fbcdn.net/connect.php/js/FB.Share");
 
 function fm_options() {
     add_options_page('FBMeme Settings', 'FBMeme', 8,
@@ -26,11 +29,7 @@ function fm_generate_button() {
     $style = get_option('fm_style');
     $button .= <<<EOF
 <div id="fbmeme_button" style="{$style}">
-<script type="text/javascript">
-    fbmeme_url = '{$url}';
-</script>
-<a name="fb_share" type="box_count" href="http://www.facebook.com/sharer.php">Share</a>
-<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+<a name="fb_share" type="box_count" share_url='$url'>Share</a>
 </div>
 EOF;
     return $button;
